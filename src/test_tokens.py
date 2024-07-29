@@ -5,8 +5,6 @@ import string
 import unittest
 import time
 
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
-
 from tokens import Tokens
 
 class TestTokens(unittest.TestCase):
