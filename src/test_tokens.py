@@ -1,5 +1,7 @@
 import sys
 import os
+import random
+import string
 import unittest
 import time
 
@@ -32,7 +34,7 @@ class TestTokens(unittest.TestCase):
 
     def test_tampered_token(self):
         print("Testing if a tampered token is invalid")
-        tampered_token = self.token[:-1] + ('A' if self.token[-1] != 'A' else 'B')
+        tampered_token = self.token[:-8] + ''.join(random.choice(string.ascii_uppercase) for _ in range(8))
         self.assertFalse(Tokens.validate_token(tampered_token, self.unique_string, self.file_path), "Tampered token should be invalid")
 
 if __name__ == '__main__':
