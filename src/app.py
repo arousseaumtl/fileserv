@@ -14,6 +14,8 @@ class FileServ:
     class AppConfig(BaseSettings):
         api_key: str = Field("", env="X-API-KEY")
         serve_path: str = Field("files", env="SERVE_PATH")
+        serve_domain: str = Field("localhost", env="SERVE_DOMAIN")
+        serve_port: str = Field("8000", env="SERVE_PORT")
         token_expiry_seconds: int = Field(300, env="TOKEN_EXPIRY_SECONDS")
         log_level: str = Field("INFO", env="LOG_LEVEL")
 
@@ -52,7 +54,7 @@ class FileServ:
 
                 token = Tokens.generate_signed_token(self.settings.token_expiry_seconds, client_secret, file_path)
                 self.logger.info(f"Generated signed URL for file: {file_path}")
-                return {"url": f"http://localhost:8000/{file_path}?token={token}"}
+                return f"http://{self.settings.serve_domain}:{self.settings.serve_port}/{file_path}?token={token}"
             
             if not Tokens.validate_token(token, client_secret, file_path):
                 self.logger.warning(f"Invalid or expired token for file: {file_path}")
