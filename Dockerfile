@@ -17,8 +17,10 @@ WORKDIR /home/app
 USER app
 
 COPY --chown=app:app src/* ./src/
+COPY --chown=app:app tests/* ./tests/
 
 RUN python3 -m venv /home/app/pythonenv \
+    && pip3 install --no-cache-dir --upgrade pip \
     && pip3 install -r src/requirements.txt
 
 ENTRYPOINT ["python3", "src/main.py"]

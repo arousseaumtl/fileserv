@@ -3,8 +3,9 @@ import hashlib
 import base64
 from pydantic import BaseModel, PositiveInt, StrictStr
 
+
 class Tokens:
-    
+
     class TokenData(BaseModel):
         validity_period_seconds: PositiveInt
         token: StrictStr
@@ -30,7 +31,7 @@ class Tokens:
     def validate_token(token: str, unique_string: bytes, file_path: str) -> bool:
         try:
             decoded_token = base64.urlsafe_b64decode(token.encode()).decode()
-            expiry_time, path, signature = decoded_token.rsplit(':', 2)
+            expiry_time, path, signature = decoded_token.rsplit(":", 2)
             expected_signature = Tokens.generate_signature(f"{expiry_time}:{path}", unique_string)
             return signature == expected_signature and time.time() <= int(expiry_time) and path == file_path
         except Exception:

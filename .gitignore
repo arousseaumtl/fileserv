@@ -21,7 +21,5 @@ __pycache__/
 *.DS_Store
 Desktop.ini
 *.bak
-targets/*
-!targets/targets.json
 *.secret
 data/*
